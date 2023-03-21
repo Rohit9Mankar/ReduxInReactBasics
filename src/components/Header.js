@@ -1,20 +1,30 @@
 import classes from './Header.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { AuthActions } from '../store';
 
 const Header = () => {
+  const isLoggedIn=useSelector(state => state.auth.isAuthenticate);
+  const dispatch=useDispatch();
+
+  const logoutHandler=(event)=>{
+    event.preventDefault();
+    dispatch(AuthActions.logout());
+  };
+
   return (
     <header className={classes.header}>
       <h1>Redux Auth</h1>
       <nav>
         <ul>
-          <li>
+          {isLoggedIn && (<li>
             <a href='/'>My Products</a>
-          </li>
-          <li>
+          </li>)}
+          {isLoggedIn && (<li>
             <a href='/'>My Sales</a>
-          </li>
-          <li>
-            <button>Logout</button>
-          </li>
+          </li>)}
+          {isLoggedIn && (<li>
+            <button onClick={logoutHandler}>Logout</button>
+          </li>)}
         </ul>
       </nav>
     </header>
